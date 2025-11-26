@@ -19,7 +19,7 @@ mayo_clinic_capstone
 │   │   ├── densenet121_chexpert.pth.tar
 │   │   ├── effnetv2s_finetuned.pth
 │   └── data/
-│       ├── train/               # guide to download the data
+│       ├── Readme.md               # guide to download the data
 ├── ios-app/
 │   ├── ChestXRayDiagnosisApp.xcodeproj
 │   ├── ChestXRayDiagnosisApp/
@@ -36,7 +36,7 @@ mayo_clinic_capstone
 
 ---
 
-## 2. `README.md`
+## 2. `How things work`
 
 Here’s a full `README.md` you can paste into your repo and tweak names/links as needed:
 
