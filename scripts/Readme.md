@@ -1,83 +1,62 @@
-Here is a polished, professional **`scripts/README.md`** you can place directly inside your `scripts/` folder.
-It documents all three scripts clearly and prepares future developers or sponsors to use them confidently.
-
----
-
-# 📄 **scripts/README.md**
-
 ````markdown
 # Scripts Overview
 
-This folder contains all utility scripts used for **model conversion**, **evaluation**, and **deployment
-validation** for the Chest X-Ray Diagnosis App.
+This folder contains all utility scripts used for **model conversion**, **evaluation**, and
+**deployment validation** for the Chest X-Ray Diagnosis App.
 
 These scripts support:
-- exporting PyTorch models to CoreML,
+- converting PyTorch `.pth` models directly to CoreML `.mlmodel`,
 - verifying prediction consistency between PyTorch and CoreML,
-- performing simple evaluations on test sets.
+- performing evaluation on a test image subset.
 
-They are designed so that a future developer can easily reproduce the entire deployment pipeline.
+They are designed so that future developers can easily reproduce the entire deployment pipeline.
 
 ---
 
 # 📁 Scripts Included
 
-## 1. `export_to_onnx.py`
-Exports a trained PyTorch `.pth` model into **ONNX** format.
+## 1. `pth_to_coreml.py`
+
+Converts a trained PyTorch `.pth` checkpoint **directly into a CoreML `.mlmodel`** ready for iOS deployment.
 
 ### **Purpose**
-- Convert your PyTorch EfficientNet-V2-S checkpoint into an ONNX model.
-- ONNX acts as an intermediate format for CoreML conversion.
+- Load the fine-tuned EfficientNet-V2-S model from the `.pth` checkpoint.
+- Trace the model using TorchScript.
+- Convert it to CoreML using `coremltools`.
+- Save the resulting `.mlmodel` for use inside the iOS app.
 
 ### **Usage**
 ```bash
-python scripts/export_to_pth.py \
+python scripts/pth_to_coreml.py \
     --checkpoint ml_training/models/effnetv2s_finetuned.pth \
     --output ml_training/models/effnetv2s_finetuned.mlmodel
 ````
 
 ### **Notes**
 
-* The input shape is fixed at `(1, 3, 224, 224)`.
-* The output will be a multi-label probability vector of size 14.
+* Embeds correct preprocessing (`mean=0.5`, `std=0.5`) into the CoreML model.
+* Exports to the **ML Program** format recommended for iOS 16+.
+* The resulting `.mlmodel` should be copied into:
+
+  ```
+  ios-app/ChestXRayDiagnosisApp/Models/
+  ```
 
 ---
 
-## 2. `pth_to_coreml.py`
+## 2. `compare_pth_coreml.py`
 
-Converts a PyTorch `.pth` checkpoint **directly to CoreML** `.mlmodel`.
-
-### **Purpose**
-
-* Load the fine-tuned EfficientNet-V2-S model.
-* Trace the model with TorchScript.
-* Convert it into an iOS-ready `.mlmodel` file using `coremltools`.
-
-### **Usage**
-
-```bash
-python scripts/pth_to_coreml.py \
-    --checkpoint ml_training/models/effnetv2s_finetuned.pth \
-    --output ml_training/models/effnetv2s_finetuned.mlmodel
-```
-
-### **Notes**
-
-* The script embeds the correct normalization parameters (`mean=0.5`, `std=0.5`).
-* Uses CoreML "mlprogram" format for best performance on iOS 16+.
-* This is the version used inside the Xcode project.
-
----
-
-## 3. `compare_pth_coreml.py`
-
-Compares predictions between the PyTorch model and the CoreML model on a test image directory.
+Compares outputs from the PyTorch `.pth` model and the CoreML `.mlmodel` to ensure the conversion was correct.
 
 ### **Purpose**
 
-* Validate that the CoreML model outputs match the PyTorch model.
-* Detect conversion inconsistencies or preprocessing mismatches.
-* Print per-class and overall differences.
+* Run inference on both models using the same test images.
+* Detect inconsistencies due to:
+
+  * conversion errors,
+  * preprocessing mismatches,
+  * floating-point differences.
+* Print per-class and overall prediction differences.
 
 ### **Usage**
 
@@ -91,22 +70,26 @@ python scripts/compare_pth_coreml.py \
 
 ### **Output Includes**
 
-* Mean absolute difference (PyTorch vs CoreML)
-* Max absolute difference
-* Per-class difference summary
-* Counts of images evaluated
+* Overall mean absolute difference
+* Overall maximum difference
+* Per-class differences (0–13)
+* Number of evaluated images
 
 ### **Notes**
 
-* Test images must be .jpg/.jpeg/.png.
-* Preprocessing matches the training pipeline (resize + normalize).
+* Test images must be `.jpg`, `.jpeg`, or `.png`.
+* Uses the **exact same preprocessing** as training:
 
+  * resize → 224×224
+  * ToTensor
+  * normalize (mean = std = 0.5)
+
+---
 
 # 🏗 Folder Structure Reminder
 
 ```
 scripts/
-├── export_to_onnx.py
 ├── pth_to_coreml.py
 └── compare_pth_coreml.py
 ```
@@ -126,6 +109,3 @@ For help with model conversion or script updates:
 ---
 
 ```
-
-```
-
