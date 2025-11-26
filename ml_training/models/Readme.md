@@ -14,8 +14,7 @@ external storage if needed.
 Typical contents of this folder:
 
 - `densenet121_chexpert.pth.tar`  
-- `effnetv2s_finetuned.pth`  
-- `effnetv2s_finetuned.onnx`  
+- `effnetv2s_finetuned.pth`    
 - `effnetv2s_finetuned.mlmodel`  
 
 Your exact filenames may differ slightly, but the roles are as follows.
@@ -51,20 +50,6 @@ retraining/improvement workflows.
 - This is the **source model** for all export steps (ONNX, CoreML).
 
 If you want to continue training or fine-tuning, this is the checkpoint to start from.
-
----
-
-### 2.3 `effnetv2s_finetuned.onnx`
-**Type:** ONNX model  
-**Stage:** Intermediate deployment format
-
-- Exported from `effnetv2s_finetuned.pth` using `export_to_onnx.py`.
-- Used as the input to CoreML conversion via `coremltools`.
-- Allows:
-  - Cross-framework compatibility
-  - Quick validation using ONNX Runtime
-
-If you update the PyTorch model, you must regenerate this ONNX file.
 
 ---
 
