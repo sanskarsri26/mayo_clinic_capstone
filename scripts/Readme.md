@@ -15,7 +15,7 @@ They are designed so that future developers can easily reproduce the entire depl
 
 # 📁 Scripts Included
 
-## 1. `pth_to_coreml.py`
+## 1. `export_to_pth.py`
 
 Converts a trained PyTorch `.pth` checkpoint **directly into a CoreML `.mlmodel`** ready for iOS deployment.
 
@@ -44,7 +44,7 @@ python scripts/pth_to_coreml.py \
 
 ---
 
-## 2. `compare_pth_coreml.py`
+## 2. `eval_model.py`
 
 Compares outputs from the PyTorch `.pth` model and the CoreML `.mlmodel` to ensure the conversion was correct.
 
