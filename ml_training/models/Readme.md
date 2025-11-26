@@ -13,9 +13,9 @@ external storage if needed.
 
 Typical contents of this folder:
 
-- `densenet121_chexpert.pth.tar`  
-- `effnetv2s_finetuned.pth`    
-- `effnetv2s_finetuned.mlmodel`  
+- `m-epoch_FL_run3.pth.tar`  
+- `model_export.pth`    
+- `chexpert_efficientnetv2s.mlmodel`  
 
 Your exact filenames may differ slightly, but the roles are as follows.
 
@@ -23,7 +23,7 @@ Your exact filenames may differ slightly, but the roles are as follows.
 
 ## 2. Model Files and Their Roles
 
-### 2.1 `densenet121_chexpert.pth.tar`
+### 2.1 `m-epoch_FL_run3.pth.tar`
 **Type:** PyTorch checkpoint  
 **Stage:** Stage 1 – CheXpert Pretraining  
 
@@ -38,7 +38,7 @@ retraining/improvement workflows.
 
 ---
 
-### 2.2 `effnetv2s_finetuned.pth`
+### 2.2 `model_export.pth`
 **Type:** PyTorch checkpoint  
 **Stage:** Stage 2 – Domain Adaptation (Deployment model in training form)
 
@@ -53,7 +53,7 @@ If you want to continue training or fine-tuning, this is the checkpoint to start
 
 ---
 
-### 2.4 `effnetv2s_finetuned.mlmodel`
+### 2.4 `chexpert_efficientnetv2s.mlmodel`
 **Type:** CoreML model  
 **Stage:** Final deployment artifact for iOS
 
@@ -79,12 +79,12 @@ If you need to retrain or regenerate any model files:
 1. **Retrain Stage 1 (DenseNet121)**
 
    * Use `cheXpert_final.ipynb`
-   * Output: `densenet121_chexpert.pth.tar`
+   * Output: `m-epoch_FL_run3.pth.tar`
 
 2. **Retrain Stage 2 (EfficientNet-V2-S)**
 
    * Use `finetuning.ipynb`
-   * Output: `effnetv2s_finetuned.pth`
+   * Output: `model_export.pth`
 
 3. **Export to ONNX**
 
@@ -93,7 +93,7 @@ If you need to retrain or regenerate any model files:
      ```bash
      python ../scripts/export_to_onnx.py
      ```
-   * Output: `effnetv2s_finetuned.onnx`
+   * Output: `model_export.onnx`
 
 4. **Convert ONNX → CoreML**
 
@@ -102,7 +102,7 @@ If you need to retrain or regenerate any model files:
      ```bash
      python ../scripts/convert_onnx_to_coreml.py
      ```
-   * Output: `effnetv2s_finetuned.mlmodel`
+   * Output: `model_export.mlmodel`
 
 Then copy the updated `.mlmodel` into the `ios-app` project.
 
