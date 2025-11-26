@@ -29,8 +29,7 @@ mayo_clinic_capstone
 │   │   ├── Services/            # camera, CoreML, Vision, Grad-CAM
 │   │   └── Resources/           # assets, help GIF, icons
 └── scripts/
-    ├── export_to_onnx.py
-    ├── convert_onnx_to_coreml.py
+    ├── export_to_pth.py
     └── eval_model.py
 ```
 
