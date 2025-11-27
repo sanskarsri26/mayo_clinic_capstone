@@ -1,6 +1,8 @@
 # mayo_clinic_capstone
 Capstone project for Mayo Clinic - CSE 486
 
+Model weight link: https://drive.google.com/drive/folders/1rVv52gXj99Ue_qupf0KFz3hJa80lvchO?usp=sharing or it also located inside ml_training/models/
+
 ---
 
 ## 1. Repo Structure
